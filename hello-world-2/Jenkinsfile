@@ -3,14 +3,14 @@
 node('master') {
 
   stage 'print some basic info'
-  echo "-- pwd: " + pwd()
-  echo "--workspace ${env.WORKSPACE}"
+  def currentDir = pwd()
+  echo "-- pwd: $currentDir"
+  echo "-- workspace: ${env.WORKSPACE}"
   
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
   echo "-- this is a great approach to minimize job-specific configuration and maximize code reuse."
-  echo "-- load paths are relative to the directory your current script is in. "
-  load 'scripts/common.groovy'
+  common = load "${currentDir}@script/scripts/common.groovy"
 
   stage 'say hello'
   echo "-- this is a stage. A stage is a logical separation of your build pipeline."
