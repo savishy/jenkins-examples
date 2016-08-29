@@ -14,7 +14,7 @@ node('master') {
 
   stage 'call function from groovy script'
   echo "-- lets call the getRandom() function from common.groovy"
-  println common.getRandom()
+  println common.getRandom(3)
   
   stage 'say hello'
   echo "-- this is a stage. A stage is a logical separation of your build pipeline."
