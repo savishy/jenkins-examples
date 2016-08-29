@@ -18,6 +18,9 @@ Each `hello-world-*` folder contains a `Jenkinsfile` which demonstrates a basic 
 
 1. [hello-world](https://github.com/savishy/jenkins-examples/tree/master/hello-world)
 1. [hello-world-2](https://github.com/savishy/jenkins-examples/tree/master/hello-world-2)
+1. [hello-world-3](https://github.com/savishy/jenkins-examples/tree/master/hello-world-3)
+
+And other `hello-world-*` examples sequentially.
 
 ## Troubleshooting ##
 
