@@ -44,6 +44,8 @@ plugin page to know more.
 
 Now you can rerun hello-world-3. This time it will pass.
 
+![success](https://github.com/savishy/jenkins-examples/raw/master/img/helloworld7.png)
+
 
 ## References
 1. http://stackoverflow.com/a/29547362/682912
