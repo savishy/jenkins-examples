@@ -12,4 +12,9 @@ You should have a Jenkins instance to try this out on. The easiest way is to [do
 
 ## Using the examples
 
-Each folder contains a `Jenkinsfile` which demonstrates a basic concept. To try out each example, read the `README` file located in each folder.
+Each `hello-world-*` folder contains a `Jenkinsfile` which demonstrates a basic Pipeline concept. To try out each example, read the `README` file located in each folder.
+
+*What order should you follow?*
+
+1. [hello-world](https://github.com/savishy/jenkins-examples/tree/master/hello-world)
+1. [hello-world-2](https://github.com/savishy/jenkins-examples/tree/master/hello-world-2)
