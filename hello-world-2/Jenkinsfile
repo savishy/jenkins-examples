@@ -3,7 +3,8 @@
 node('master') {
 
   stage 'print some basic info'
-  echo "--workspace $WORKSPACE"
+  echo "-- pwd: " + pwd()
+  echo "--workspace ${env.WORKSPACE}"
   
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
