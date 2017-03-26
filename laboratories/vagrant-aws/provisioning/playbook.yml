@@ -1,0 +1,15 @@
+---
+- name: setup docker on all hosts
+  hosts: docker
+  roles:
+    - { role: ansible-roles/install-docker, docker_user: ubuntu }
+
+- name: start jenkins docker container
+  hosts: jenkins
+  roles:
+    - { role: ansible-roles/jenkins-docker }
+
+- name: start nexus
+  hosts: nexus
+  roles:
+    - { role: nexus }

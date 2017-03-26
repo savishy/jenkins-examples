@@ -1,0 +1,15 @@
+---
+- name: setup ec2 rules
+  hosts: all
+  vars:
+    become_user: root
+    become_method: sudo
+    ec2_ports_securitygroup:
+      - {proto: tcp, from: 2377, to: 2377, group_id: vish_agility_aws_test}
+      - {proto: tcp, from: 4789, to: 4789, group_id: vish_agility_aws_test}
+      - {proto: udp, from: 4789, to: 4789, group_id: vish_agility_aws_test}
+      - {proto: tcp, from: 7946, to: 7946, group_id: vish_agility_aws_test}
+      - {proto: udp, from: 7946, to: 7946, group_id: vish_agility_aws_test}
+  roles:
+    - { role: ansible-roles/ec2-create-group }
+    - { role: ansible-roles/ec2-modify-group, ec2_ports: "{{ ec2_ports_securitygroup }}", mode: "private"  }

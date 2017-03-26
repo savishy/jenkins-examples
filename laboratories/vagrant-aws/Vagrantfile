@@ -1,0 +1,51 @@
+# read env vars and store them
+keypair_name = ENV['AWS_KEYPAIR_NAME']
+access_key_id = ENV['AWS_ACCESS_KEY']
+secret_access_key = ENV['AWS_SECRET_KEY']
+security_groups = ENV['AWS_SECURITYGROUP']
+private_key_path = ENV['AWS_KEYPATH']
+
+# define machines to be setup
+ec2_instances = ["jenkins-master","nexus"]
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "lattice/ubuntu-trusty-64"
+  # setup each machine.
+  ec2_instances.each do |ec2_instance|
+    config.vm.define ec2_instance do |config2|
+
+      # custom config block for AWS provider.
+      config2.vm.provider :aws do |ec2, override|
+        ec2.keypair_name = keypair_name
+        ec2.access_key_id = access_key_id
+        ec2.secret_access_key = secret_access_key
+        ec2.security_groups = security_groups
+        override.ssh.private_key_path = private_key_path
+        ec2.region = "ap-south-1"
+        ec2.availability_zone = "ap-south-1a"
+        ec2.ami = "ami-4a90fa25" # ubuntu 14.04 server
+        ec2.instance_type = "t2.micro"
+        override.ssh.username = "ubuntu"
+        ec2.tags = {
+          'Name'         => "#{ec2_instance}"
+        }
+      end
+    end
+  end
+
+  ###################
+  # PROVISIONING
+  ###################
+  config.vm.provision :ansible do |ansible|
+    # autodownload dependent roles
+    ansible.galaxy_role_file = "./provisioning/requirements.yml"
+    ansible.galaxy_roles_path = "./provisioning"
+    ansible.groups = {
+      "docker" => ec2_instances,
+      "jenkins" => ["jenkins-master"]
+    }
+    ansible.verbose = "vv"
+    ansible.playbook = "provisioning/playbook.yml"
+  end
+
+end
