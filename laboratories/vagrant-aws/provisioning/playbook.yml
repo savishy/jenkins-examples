@@ -7,7 +7,7 @@
 - name: start jenkins docker container
   hosts: jenkins
   roles:
-    - { role: ansible-roles/jenkins-docker }
+    - { role: ansible-roles/jenkins-docker-from-image }
 
 - name: start nexus
   hosts: nexus

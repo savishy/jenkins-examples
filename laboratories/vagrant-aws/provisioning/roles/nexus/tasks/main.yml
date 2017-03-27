@@ -1,28 +1,11 @@
 ---
 
-- name: create nexus group
-  group:
-    name: nexus
-    state: present
-  become: true
-- name: create nexus user
-  user:
-    name: nexus
-    group: nexus
-    home: "{{nexus_home}}"
-  become: true
-
-- name: create nexus home
-  file:
-    name: "{{nexus_home}}"
-    state: directory
-    owner: nexus
-    group: nexus
-  become: true
-
 - name: run nexus docker container
   docker_container:
     name: nexus-container
-    image: sonatype/nexus3
+    image: sonatype/nexus
     ports:
       - "8081:8081"
+    env:
+      JAVA_MAX_MEM: 768m
+      EXTRA_JAVA_OPTS: "-Dstorage.diskCache.bufferSize=256"
