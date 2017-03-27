@@ -4,10 +4,11 @@
   roles:
     - { role: ansible-roles/install-docker, docker_user: ubuntu }
 
-- name: start jenkins docker container
+- name: start jenkins docker, configure jenkins
   hosts: jenkins
   roles:
     - { role: ansible-roles/jenkins-docker-from-image }
+    - { role: jenkins-config }
 
 - name: start nexus
   hosts: nexus
