@@ -1,0 +1,34 @@
+#######
+# Setup
+#######
+
+##################
+# required plugins
+##################
+unless Vagrant.has_plugin?("vagrant-aws")
+  raise "Vagrant AWS Plugin required! Please run vagrant plugin install vagrant-aws first."
+end
+
+
+unless Vagrant.has_plugin?("vagrant-awsinfo")
+  raise "Vagrant AWSInfo Plugin required! Please run vagrant plugin install vagrant-awsinfo first."
+end
+
+# Run script after a specific vagrant action
+# https://github.com/emyl/vagrant-triggers
+unless Vagrant.has_plugin?("vagrant-triggers")
+  raise "Vagrant Triggers Plugin required! Please run vagrant plugin install vagrant-triggers first."
+end
+
+# https://github.com/johntdyer/vagrant-awsinfo
+# read env vars and store them
+# Variables have to be global to be accessible from main Vagrantfile
+# ref: http://stackoverflow.com/a/1047482/682912
+$keypair_name = ENV['AWS_KEYPAIR_NAME']
+$access_key_id = ENV['AWS_ACCESS_KEY']
+$secret_access_key = ENV['AWS_SECRET_KEY']
+$security_groups = ENV['AWS_SECURITYGROUP']
+$private_key_path = ENV['AWS_KEYPATH']
+
+# Names of the machines as visible in AWS Console
+$ec2_instances = ["jenkins-master","nexus"]
