@@ -18,12 +18,15 @@
   local_action: copy src={{item}} dest={{local_cli_dir}}
   with_items:
     - configure.groovy
+    - setupNormalUser.groovy
 
 - set_fact: java_path="{{lookup('env','JAVA_HOME')}}/bin/java"
+- set_fact: cli_cmd={{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}}
+
 - name: testing plugin installation via CLI
-  local_action: shell {{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}} install-plugin {{item}}
+  local_action: shell {{cli_cmd}} install-plugin {{item}}
   with_items:
     - matrix-auth
 
 - name: execute cli to create admin user
-  local_action: shell {{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}} groovy {{local_cli_dir}}/configure.groovy
+  local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/configure.groovy
