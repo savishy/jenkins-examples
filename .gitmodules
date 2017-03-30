@@ -1,0 +1,3 @@
+[submodule "laboratories/vagrant-aws/provisioning/ansible-roles"]
+	path = laboratories/vagrant-aws/provisioning/ansible-roles
+	url = http://github.com/savishy/ansible-roles
