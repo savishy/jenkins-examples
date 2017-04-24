@@ -1,17 +1,18 @@
+# hello-world-2
+
+
 This example shows you the following concepts
 
 1. Printing basic info and referencing environment variables.
 1. Using the `stage` functionality.
 1. Loading commonly used functionality from a script.
 
+If you haven't run the basic [`hello-world`](../hello-world/README.md) example, *please take a look at that example first.*
+
 ## How to use
 
-If you haven't run the basic [`hello-world`](https://github.com/savishy/jenkins-examples/tree/master/hello-world) example, please take a look at the
-[hello-world README](https://github.com/savishy/jenkins-examples/blob/master/hello-world/README.md)
-for instructions on creating a job.
-
 If you have already run the `hello-world` example, all you need to do is edit the groovy
-script path for the job configuration as shown in below screenshot.
+script path for the job configuration as shown below:
 
 ![edit script path](https://github.com/savishy/jenkins-examples/raw/master/img/helloworld4.png)
 
@@ -33,7 +34,7 @@ Try the following:
 1. Open the `workspace` folder. Look at the folder names.
 1. *If your pipeline job is called `test-pipeline`* you should see a folder
    named:
-   
+
   `test-pipeline@script`
 1. Look inside the contents of this folder, and you will see our repository
    (`jenkins-examples`) checked out.
@@ -70,7 +71,7 @@ org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts no
 ```
 
 This is intentional and teaches you a concept called "Script Security". Let's
-move on to hello-world-3 to learn more.
+move on to [hello-world-3](../hello-world-3/README.md) to learn more.
 
 ## References
 
