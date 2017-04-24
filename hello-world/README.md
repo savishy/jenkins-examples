@@ -26,4 +26,4 @@ This above is the console output. It contains the exact output of the job, along
 
 ![no stages](https://github.com/savishy/jenkins-examples/raw/master/img/helloworld2.png)
 
-The message in screenshot recommends adding stages to further break down our pipeline. Let's do that in example [`hello-world-2`](hello-world-2/README.md).
+The message in screenshot recommends adding stages to further break down our pipeline. Let's do that in example [`hello-world-2`](../hello-world-2/README.md).
