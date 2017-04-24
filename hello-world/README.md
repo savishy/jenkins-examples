@@ -17,7 +17,7 @@ This is a very basic "hello world" demonstration of using Pipeline.
 The important thing to note is that we specified two things in the job configuration
 1. the path to an SCM repository that contains Groovy Jenkins Pipeline scripts; and 
 2. the path to our `Jenkinsfile` that contains the actual job config.
-    In this example we use the `[hello-world/Jenkinsfile](Jenkinsfile)` file. In future examples you would simply edit the config to point to a `Jenkinsfile` in a different folder.
+    In this example we use the [`hello-world/Jenkinsfile`](Jenkinsfile) file. In future examples you would simply edit the config to point to a `Jenkinsfile` in a different folder.
 
 Now lets observe something when the job runs:
 ![console output](https://github.com/savishy/jenkins-examples/raw/master/img/helloworld3.png)
