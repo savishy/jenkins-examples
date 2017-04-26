@@ -1,0 +1,21 @@
+/**
+This Jenkinsfile demonstrates Pipeline-as-Code for an example Webapp.
+https://github.com/spring-projects/spring-petclinic
+The Jenkinsfile proceeds through various stages of the build pipeline:
+* Checkout webapp source code and build WAR.
+  (Also Executes Unit Tests)
+* Create a Tomcat Docker Image that also contains the WAR
+* Deploy the Tomcat Image as a container into a server.
+**/
+node('master') {
+  //load common groovy script
+  //http://stackoverflow.com/a/38108449/682912
+  def common = load "${env.WORKSPACE}@script/petclinic-pipeline/common.groovy"
+
+  stage('Build WAR') {
+    common.checkoutGit("https://github.com/spring-projects/spring-petclinic")
+    common.buildWar("/usr/lib/jvm/java-1.7.0-openjdk-amd64","./mvnw install")
+    archiveArtifacts artifacts: "**/target/*.war"
+  }
+
+}
