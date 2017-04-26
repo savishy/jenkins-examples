@@ -1,6 +1,6 @@
 #!/groovy
 
-node('nexus-slave') {
+node('master') {
 
   stage "print some basic info on ${env.NODE_NAME}"
   def currentDir = pwd()
@@ -9,7 +9,7 @@ node('nexus-slave') {
   echo "Hello world! I am node ${env.NODE_NAME}"
 }
 
-node('master') {
+node('nexus-slave') {
 
   stage "print some basic info on ${env.NODE_NAME}"
   def currentDir = pwd()
@@ -20,7 +20,7 @@ node('master') {
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
   echo "-- this is a great approach to minimize job-specific configuration and maximize code reuse."
-  common = load "${env.JENKINS_HOME}/workspace@script/scripts/common.groovy"
+  common = load "${env.WORKPACE}@script/scripts/common.groovy"
 
   stage 'call function from groovy script'
   echo "-- lets call the getRandom() function from common.groovy"
