@@ -16,7 +16,9 @@ node('nexus-slave') {
   echo "-- pwd: $currentDir"
   echo "-- workspace: ${env.WORKSPACE}"
   echo "Hello world! I am node ${env.NODE_NAME}"
+}
 
+node('master') {
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
   echo "-- this is a great approach to minimize job-specific configuration and maximize code reuse."
