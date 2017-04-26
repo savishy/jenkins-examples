@@ -22,8 +22,7 @@ node('master') {
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
   echo "-- this is a great approach to minimize job-specific configuration and maximize code reuse."
-  sh "ls "
-  common = load '${env.WORKPACE}@script/scripts/common.groovy'
+  common = load "${env.WORKSPACE}@script/scripts/common.groovy"
 
   stage 'call function from groovy script'
   echo "-- lets call the getRandom() function from common.groovy"
