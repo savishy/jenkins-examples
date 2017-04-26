@@ -1,17 +1,17 @@
 #!/groovy
 
-node('master') {
+node('nexus-slave') {
 
-  stage 'print some basic info on ${env.NODE_NAME}'
+  stage "print some basic info on ${env.NODE_NAME}"
   def currentDir = pwd()
   echo "-- pwd: $currentDir"
   echo "-- workspace: ${env.WORKSPACE}"
   echo "Hello world! I am node ${env.NODE_NAME}"
 }
 
-node('nexus-slave') {
+node('master') {
 
-  stage 'print some basic info on ${env.NODE_NAME}'
+  stage "print some basic info on ${env.NODE_NAME}"
   def currentDir = pwd()
   echo "-- pwd: $currentDir"
   echo "-- workspace: ${env.WORKSPACE}"
@@ -20,7 +20,7 @@ node('nexus-slave') {
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
   echo "-- this is a great approach to minimize job-specific configuration and maximize code reuse."
-  common = load "${currentDir}@script/scripts/common.groovy"
+  common = load "${currentDir}/workspace@script/scripts/common.groovy"
 
   stage 'call function from groovy script'
   echo "-- lets call the getRandom() function from common.groovy"
