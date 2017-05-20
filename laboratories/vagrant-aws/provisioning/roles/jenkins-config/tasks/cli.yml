@@ -1,0 +1,18 @@
+---
+- name: create staging dir for CLI
+  local_action: file path={{local_cli_dir}} state=directory
+
+- name: get Jenkins CLI Jar
+  local_action: get_url url={{jenkins_url}}/jnlpJars/jenkins-cli.jar dest={{local_cli_dir}}
+
+- name: copy groovy script to CLI directory
+  local_action: copy src={{item}} dest={{local_cli_dir}}
+  with_items:
+    - configure.groovy
+    - setupNormalUser.groovy
+
+- set_fact: java_path="{{lookup('env','JAVA_HOME')}}/bin/java"
+- set_fact: cli_cmd="{{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}}"
+
+- name: test cli
+  local_action: shell {{cli_cmd}} help

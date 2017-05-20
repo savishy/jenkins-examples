@@ -1,0 +1,7 @@
+---
+- name: install plugins via CLI with restart
+  local_action: shell {{cli_cmd}} install-plugin {{item}} -restart
+  with_items:
+    - matrix-auth
+    - git
+    - ssh-slaves

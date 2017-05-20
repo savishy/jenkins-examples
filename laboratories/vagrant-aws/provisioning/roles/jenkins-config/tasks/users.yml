@@ -1,4 +1,7 @@
 ---
+- name: execute cli to create admin user
+  local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/configure.groovy
+
 # ref: http://stackoverflow.com/a/32946255/682912
 - name: execute cli to create normal users
   local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/setupNormalUser.groovy --username admin --password Alohomora

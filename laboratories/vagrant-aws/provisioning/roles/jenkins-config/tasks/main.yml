@@ -2,31 +2,12 @@
 - fail: msg="JAVA_HOME is not set!"
   when: lookup('env','JAVA_HOME') == ''
 
-- name: get EC2 Hostname
+- name: Print Machine Hostname
   debug: var=ansible_ssh_host
 
 - set_fact:
     jenkins_url: "http://{{ansible_ssh_host}}:8081"
 
-- name: create staging dir for CLI
-  local_action: file path={{local_cli_dir}} state=directory
-
-- name: get Jenkins CLI Jar
-  local_action: get_url url={{jenkins_url}}/jnlpJars/jenkins-cli.jar dest={{local_cli_dir}}
-
-- name: copy groovy script to CLI directory
-  local_action: copy src={{item}} dest={{local_cli_dir}}
-  with_items:
-    - configure.groovy
-    - setupNormalUser.groovy
-
-- set_fact: java_path="{{lookup('env','JAVA_HOME')}}/bin/java"
-- set_fact: cli_cmd={{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}}
-
-- name: testing plugin installation via CLI
-  local_action: shell {{cli_cmd}} install-plugin {{item}}
-  with_items:
-    - matrix-auth
-
-- name: execute cli to create admin user
-  local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/configure.groovy
+- include: cli.yml
+- include: plugins.yml
+- include: users.yml
