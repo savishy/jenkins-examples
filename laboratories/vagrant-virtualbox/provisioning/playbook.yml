@@ -1,0 +1,10 @@
+---
+- name: setup jenkins master
+  hosts: jenkins
+  vars:
+    - java_version: 8
+    - java_subversion: 112
+    - java_download_path: /opt
+  roles:
+    - { role: williamyeh.oracle-java, become: true }
+    - { role: ansible-roles/jenkins }

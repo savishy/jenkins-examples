@@ -1,0 +1,2 @@
+[jenkins]
+vagrant-ssh ansible_host=84.84.87.91 ansible_ssh_user=vagrant ansible_ssh_private_key_file=~/.ssh/vagrant_ssh_key
