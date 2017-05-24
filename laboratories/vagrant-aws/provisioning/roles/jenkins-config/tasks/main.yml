@@ -6,7 +6,7 @@
   debug: var=ansible_ssh_host
 
 - set_fact:
-    jenkins_url: "http://{{ansible_ssh_host}}:8081"
+    jenkins_url: "http://{{ansible_ssh_host}}:{{jenkins_port}}"
 
 - include: cli.yml
 - include: plugins.yml

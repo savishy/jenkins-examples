@@ -1,4 +1,4 @@
-# AWS Laboratory
+# Laboratory
 
 This sub-directory provides a "pop up" laboratory with servers for use with the Jenkins examples. The laboratory is provisioned using Vagrant + AWS and can be used for providing an environment to try out code examples with Jenkins.
 
@@ -19,12 +19,20 @@ This includes:
 ** pipeline
 ** etc.
 
-**Jenkins is a Docker Container**
-
-Jenkins runs as a Docker container, based off [savishy/docker-jenkins](https://hub.docker.com/r/savishy/docker-jenkins/).
-
-For more details such as the exact plugins, the port etc. look at [https://github.com/savishy/docker-examples/tree/master/dockerized-applications/docker-jenkins](https://github.com/savishy/docker-examples/tree/master/dockerized-applications/docker-jenkins).
-
 ### Nexus Server
 
 The Nexus server also runs as a Docker container, based on the latest Nexus image.
+
+## Notes/Tips/Gotchas
+
+### Make sure to `git submodule update` frequently
+
+The directory [laboratories/vagrant-aws/provisioning/ansible-roles](laboratories/vagrant-aws/provisioning/ansible-roles) is a git submodule that pulls [savishy/ansible-roles](http://github.com/savishy/ansible-roles).
+
+*To ensure you have the latest version of code, make sure you do the following once you clone the repository:*
+
+```
+git submodule update --force --init --remote
+```
+
+(reference.)[https://stackoverflow.com/a/40718820/682912]

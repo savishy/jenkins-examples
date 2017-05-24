@@ -5,3 +5,7 @@
     - matrix-auth
     - git
     - ssh-slaves
+# TODO: plugin install will restart jenkins.
+# THis needs to be followed by pinging the cli endpoint.
+# Returns code 503 until service is available. After service is available
+# returns code 200.

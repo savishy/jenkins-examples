@@ -1,2 +1,3 @@
 ---
+- src: geerlingguy.java
 - src: https://github.com/savishy/ansible-roles

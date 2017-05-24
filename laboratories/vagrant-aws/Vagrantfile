@@ -3,7 +3,7 @@
 load File.expand_path('../Vagrantfile.setup', __FILE__)
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "lattice/ubuntu-trusty-64"
+  config.vm.box = "dummy"
   # setup each machine.
   $ec2_instances.each do |ec2_instance|
     config.vm.define ec2_instance do |config2|
@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
         override.ssh.private_key_path = $private_key_path
         ec2.region = "ap-south-1"
         ec2.availability_zone = "ap-south-1a"
-        ec2.ami = "ami-4a90fa25" # ubuntu 14.04 server
+        ec2.ami = "ami-c2ee9dad" #canonical ubuntu 16.04 server
         ec2.instance_type = "t2.micro"
         override.ssh.username = "ubuntu"
         ec2.tags = {
@@ -30,6 +30,11 @@ Vagrant.configure(2) do |config|
   ###################
   # PROVISIONING
   ###################
+
+  # Ensure Python installed for Ansible provision
+  config.vm.provision :shell,
+    inline: "sudo apt-get install -qqy python"
+
   config.vm.provision :ansible do |ansible|
     ansible.groups = {
       "docker" => $ec2_instances,
@@ -37,6 +42,8 @@ Vagrant.configure(2) do |config|
     }
     ansible.verbose = "vv"
     ansible.playbook = "provisioning/playbook.yml"
+    ansible.galaxy_role_file = "provisioning/requirements.yml"
+    ansible.galaxy_roles_path = "provisioning/"
   end
 
   ############################

@@ -1,2 +1,5 @@
 ---
 local_cli_dir: "/tmp/ansible/jenkins-cli"
+jenkins_port: "8081"
+java_packages:
+  - "openjdk-8-jdk"

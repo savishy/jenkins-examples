@@ -1,13 +1,13 @@
 ---
-- name: setup docker on all hosts
+- name: setup docker, jdk on all hosts
   hosts: docker
   roles:
     - { role: ansible-roles/install-docker, docker_user: ubuntu }
 
-- name: start jenkins docker, configure jenkins
+- name: install and configure jenkins
   hosts: jenkins
   roles:
-    - { role: ansible-roles/jenkins-docker-from-image }
+    - { role: ansible-roles/jenkins, become: true }
     - { role: jenkins-config, tags: ["config"] }
 
 - name: start nexus
