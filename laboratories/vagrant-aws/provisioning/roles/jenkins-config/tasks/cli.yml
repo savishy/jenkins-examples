@@ -1,18 +1,35 @@
 ---
+
+- set_fact: container_ip={{ansible_host}}
+- include: ansible-roles/includes/wait-until-jenkins-is-available.yml
+
 - name: create staging dir for CLI
   local_action: file path={{local_cli_dir}} state=directory
 
 - name: get Jenkins CLI Jar
   local_action: get_url url={{jenkins_url}}/jnlpJars/jenkins-cli.jar dest={{local_cli_dir}}
 
-- name: copy groovy script to CLI directory
-  local_action: copy src={{item}} dest={{local_cli_dir}}
+- set_fact: java_path="{{lookup('env','JAVA_HOME')}}/bin/java"
+- set_fact: cli_cmd="{{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}}"
+
+# prevent jenkins from showing "unlock jenkins" dialog.
+# http://stackoverflow.com/a/37172067/682912
+- shell: echo 2.7.1 > {{jenkins_home}}/jenkins.install.InstallUtil.lastExecVersion
+  become: true
+  notify: restart jenkins
+
+- name: get initial admin password
+  shell: sudo cat {{jenkins_home}}/secrets/initialAdminPassword
+  register:jenkins_initial_admin_pwd
+- debug: var=initial_admin_pwd.stdout
+- name: set cli credentials from initial admin password
+  set_fact: cli_creds="--username admin --password {{jenkins_initial_admin_pwd.stdout}}"
+
+- name: copy groovy scripts to CLI directory
+  local_action: template src={{item}} dest={{local_cli_dir}}
   with_items:
     - configure.groovy
     - setupNormalUser.groovy
 
-- set_fact: java_path="{{lookup('env','JAVA_HOME')}}/bin/java"
-- set_fact: cli_cmd="{{java_path}} -jar {{local_cli_dir}}/jenkins-cli.jar -s {{jenkins_url}}"
-
 - name: test cli
-  local_action: shell {{cli_cmd}} help
+  local_action: shell {{cli_cmd}} help {{cli_creds}}

@@ -6,8 +6,14 @@
   debug: var=ansible_ssh_host
 
 - set_fact:
-    jenkins_url: "http://{{ansible_ssh_host}}:{{jenkins_port}}"
+    jenkins_url: "http://{{ansible_ssh_host}}:{{jenkins_http_port}}"
 
 - include: cli.yml
-- include: plugins.yml
+
+- include: plugins.yml plugin_to_install={{item}}
+  with_items:
+    - matrix-auth
+    - git
+    - ssh-slaves
+
 - include: users.yml
