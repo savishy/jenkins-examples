@@ -1,9 +1,8 @@
 ---
+# install plugin via Jenkins Update Center with restart,
+# then wait for jenkins to be available again.
+# WARNING: This operation takes time.
 - name: install plugin {{plugin_to_install}} via CLI with restart
   local_action: shell {{cli_cmd}} install-plugin {{plugin_to_install}} -restart {{cli_creds}}
-# TODO: plugin install will restart jenkins.
-# THis needs to be followed by pinging the cli endpoint.
-# Returns code 503 until service is available. After service is available
-# returns code 200.
 
 - include: ansible-roles/includes/wait-until-jenkins-is-available.yml

@@ -9,11 +9,12 @@
     jenkins_url: "http://{{ansible_ssh_host}}:{{jenkins_http_port}}"
 
 - include: cli.yml
+  tags: cli
 
 - include: plugins.yml plugin_to_install={{item}}
   with_items:
-    - matrix-auth
-    - git
-    - ssh-slaves
+    - "{{jenkins_plugins_list}}"
+  tags: [cli,plugins]
 
 - include: users.yml
+  tags: [cli,users]

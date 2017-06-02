@@ -1,7 +1,10 @@
 ---
+# TODO: as of 2 Jun 2017 this is failing with
+# https://jenkins.io/doc/book/managing/cli/#remoting-connection-mode
 - name: execute cli to create admin user
   local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/configure.groovy {{cli_creds}}
-
+  when: false
 # ref: http://stackoverflow.com/a/32946255/682912
 - name: execute cli to create normal users
   local_action: shell {{cli_cmd}} groovy {{local_cli_dir}}/setupNormalUser.groovy --username admin --password Alohomora
+  when: false

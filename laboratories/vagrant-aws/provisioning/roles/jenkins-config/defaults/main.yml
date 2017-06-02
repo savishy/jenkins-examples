@@ -1,5 +1,18 @@
 ---
-local_cli_dir: "/tmp/ansible/jenkins-cli"
+# jenkins http port. Change if needed.
 jenkins_http_port: "8081"
+
+# default list of plugins. Override this variable
+# To change the plugins installed
+# (WARNING: may increase provisioning time)
+jenkins_plugins_list:
+  - matrix-auth
+  - git
+  - ssh-slaves
+
+# JDK package name to install. This is for the geerlingguy-java role.
 java_packages:
   - "openjdk-8-jdk"
+
+# local staging dir for jenkins CLI commands
+local_cli_dir: "/tmp/ansible/jenkins-cli"

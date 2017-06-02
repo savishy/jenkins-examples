@@ -19,9 +19,11 @@
   notify: restart jenkins
 
 - name: get initial admin password
-  shell: sudo cat {{jenkins_home}}/secrets/initialAdminPassword
-  register:jenkins_initial_admin_pwd
-- debug: var=initial_admin_pwd.stdout
+  shell: cat {{jenkins_home}}/secrets/initialAdminPassword
+  become: true
+  register: jenkins_initial_admin_pwd
+
+- debug: var=initial_admin_pwd
 - name: set cli credentials from initial admin password
   set_fact: cli_creds="--username admin --password {{jenkins_initial_admin_pwd.stdout}}"
 
