@@ -9,6 +9,7 @@
   roles:
     - { role: ansible-roles/jenkins, become: true }
     - { role: jenkins-config, tags: ["config"] }
+    - { role: tools }
 
 - name: start nexus
   hosts: nexus

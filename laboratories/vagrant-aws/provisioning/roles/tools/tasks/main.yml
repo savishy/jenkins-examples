@@ -1,0 +1,10 @@
+---
+- name: install tools
+  package:
+    name: "{{item}}"
+    state: latest
+  with_items:
+    - maven
+    - gradle
+    - ant
+  become: true
