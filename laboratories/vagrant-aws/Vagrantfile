@@ -4,6 +4,7 @@ load File.expand_path('../Vagrantfile.setup', __FILE__)
 
 Vagrant.configure(2) do |config|
   config.vm.box = "dummy"
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
   # setup each machine.
   $ec2_instances.each do |ec2_instance|
     config.vm.define ec2_instance do |config2|
