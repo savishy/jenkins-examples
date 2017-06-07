@@ -6,6 +6,7 @@ node('master') {
   def currentDir = pwd()
   echo "-- pwd: $currentDir"
   echo "-- workspace: ${env.WORKSPACE}"
+  sh "ls"
   
   stage 'load groovy script'
   echo "-- lets load a groovy script so that we can use its methods."
