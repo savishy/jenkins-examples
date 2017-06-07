@@ -59,6 +59,18 @@ common = load "${currentDir}@script/scripts/common.groovy"
 
 ## Run the job: fails!
 
+When you run the job, you might see that it failed with error 
+
+```
+java.io.FileNotFoundException: /var/lib/jenkins/workspace/petclinic-pipeline@script/scripts/common.groovy (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+```
+
+The possible reason is issue #5. If you enabled 'sparse or lightweight checkout' in your job configuration, the above directory will not be allocated and the job will fail. 
+
+## Run the job: fails!
+
 When you run this job, you might notice that it failed.
 
 Look at the console output and you will see
