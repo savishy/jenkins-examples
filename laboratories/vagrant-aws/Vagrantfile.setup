@@ -24,11 +24,11 @@ end
 # read env vars and store them
 # Variables have to be global to be accessible from main Vagrantfile
 # ref: http://stackoverflow.com/a/1047482/682912
-$keypair_name = ENV['AWS_KEYPAIR_NAME']
-$access_key_id = ENV['AWS_ACCESS_KEY']
-$secret_access_key = ENV['AWS_SECRET_KEY']
-$security_groups = ENV['AWS_SECURITYGROUP']
-$private_key_path = ENV['AWS_KEYPATH']
+$keypair_name = ENV['VAGRANT_AWS_KEYPAIR_NAME']
+$access_key_id = ENV['VAGRANT_AWS_ACCESS_KEY']
+$secret_access_key = ENV['VAGRANT_AWS_SECRET_KEY']
+$security_groups = ENV['VAGRANT_AWS_SECURITY_GROUP']
+$private_key_path = ENV['VAGRANT_AWS_KEY_PATH']
 
 # Names of the machines as visible in AWS Console
 $ec2_instances = ["jenkins-master","nexus"]
