@@ -13,7 +13,7 @@ node('master') {
   def common = load "${env.WORKSPACE}@script/petclinic-pipeline/common.groovy"
 
   stage('Build WAR') {
-    common.checkoutGit("https://github.com/spring-projects/spring-petclinic")
+    common.checkoutGit("https://github.com/savishy/spring-petclinic")
     common.buildWar("/usr/lib/jvm/java-1.7.0-openjdk-amd64","./mvnw install")
     archiveArtifacts artifacts: "**/target/*.war"
   }
