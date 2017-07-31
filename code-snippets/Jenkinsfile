@@ -1,0 +1,47 @@
+#!groovy
+
+node {
+
+  def app = "tomcat-petclinic"
+  def app_version = "0.0.1"
+
+  build job: 'build-docker-image',
+    parameters: [ string(name: 'DOCKER_WORKSPACE', value: 'tomcat-apps/petclinic'),
+                  string(name: 'APP', value: app),
+                  string(name: 'APP_VERSION', value: app_version)
+                  ]
+
+
+
+
+    def applications = [
+      [
+      name: "App1",
+      buildTasks: "clean build -x sonarRunner -x test",
+      extraArgs: "-DSOMEPARAM=SOMEVALUE",
+      ],
+      [
+      name: "App2",
+      buildTasks: "clean cleanDistributionDirectories jar -x test",
+      extraArgs: "-Psomeparam -Psomeotherparam=someothervalue",
+      ],
+      ]
+
+  //build each application in a loop
+  //http://groovy-lang.org/groovy-dev-kit.html#_iterating_on_a_list
+  for (int i=0; i<applications.size(); i++) {
+    def name = applications[i].get("name")
+    def buildTasks = applications[i].get("buildTasks")
+    def buildPath = "${env.WORKSPACE}/$name"
+    def extraArgs = applications[i].get("extraArgs")
+    stage "build $name"
+    jobConfig.buildGradleProject(
+      gradleTool,
+      javaTool,
+      buildTasks,
+      buildPath,
+      extraArgs)
+    }
+
+
+}

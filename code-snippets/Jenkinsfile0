@@ -1,0 +1,71 @@
+#!groovy
+
+node {
+
+  def app = "someApp"
+  def app_version = "0.0.1"
+  //VERSION CONTROL CONFIG
+  def codeGitlabProject = "someGitlab"
+  def codeGitlabRepo = "$app"
+  def codeGitBranch = "master"
+  def deploymentGitRepo = ""
+  def deploymentGitBranch = ""
+
+  //dir to clone code into
+  def codeDir = "code"
+
+  //GRADLE CONFIG.
+  //the gradle tool version to use
+  def gradleTool = "gradle3.5"
+  //the JDK version to use.
+  def javaTool = "jdk8"
+  //gradle task to execute.
+  def gradleTask = "clean build"
+
+  //gradle project directory
+  def buildPath = codeDir + "/SomeSubDir"
+
+  //directory to clone deployment automation into
+  def deploymentDir="deploymentAutomation"
+
+  //artifact location
+  def artifactPath = buildPath + "/$app/build/libs/$app*.war"
+
+  //load groovy scripts
+  //NOTE: For this step to succeed, 'Lightweight Checkout'
+  //has to be disabled.
+  //https://stackoverflow.com/a/38108449/682912
+  stage 'load groovy scripts'
+  def currentDir = pwd()
+  echo "-- Extract Groovy Scripts To: $currentDir"
+  echo "-- Current Workspace: ${env.WORKSPACE}"
+  jobConfig = load "${currentDir}@script/jobs/job-config.groovy"
+
+  stage "checkout code ($codeGitBranch branch)"
+  dir(codeDir) {
+    jobConfig.checkoutGitlabRepository(codeGitlabProject,
+      codeGitlabRepo,
+      codeGitBranch)
+  }
+
+  stage 'build gradle project'
+  jobConfig.buildGradleProject(gradleTool,javaTool,gradleTask,buildPath)
+
+  stage 'archive WAR artifact'
+  echo "-- $artifactPath"
+  def exitCode = archiveArtifacts "$artifactPath"
+  echo "-- archive results: $exitCode"
+
+  stage 'create docker image'
+  build job: 'build-docker-image',
+    parameters: [ string(name: 'DOCKER_WORKSPACE', value: 'tomcat-apps/someApp'),
+                  string(name: 'APP', value: app),
+                  string(name: 'APP_VERSION', value: app_version)
+                  ]
+
+  stage 'deploy docker container'
+  build job: 'deploy-docker-app',
+    parameters: [string(name: 'APP', value: app),
+    string(name: 'APP_VERSION', value: app_version)]
+
+}
