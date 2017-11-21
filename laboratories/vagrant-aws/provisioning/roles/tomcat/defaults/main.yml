@@ -1,0 +1,7 @@
+tc_mj_v: 8
+tc_mn_v: 5
+tc_p_v: 9
+tc_v: "{{tc_mj_v}}.{{tc_mn_v}}.{{tc_p_v}}"
+tomcat_download_url: "http://archive.apache.org/dist/tomcat/tomcat-{{tc_mj_v}}/v{{tc_v}}/bin/apache-tomcat-{{tc_v}}.tar.gz"
+tomcat_dest: "/opt/apache-tomcat-{{tc_v}}"
+tomcat_download_zip: "{{tomcat_dest}}.tar.gz"

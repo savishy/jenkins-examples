@@ -1,0 +1,62 @@
+---
+- name: Install Java 1.8
+  package: name=openjdk-8-jdk state=present
+
+- name: add group "tomcat"
+  group: name=tomcat
+
+- name: add user "tomcat"
+  user: name=tomcat group=tomcat home=/usr/share/tomcat createhome=no
+  become: True
+  become_method: sudo
+
+- name: Download Tomcat
+  get_url: url={{tomcat_download_url}} dest={{tomcat_download_zip}}
+
+- name: Extract archive
+  command: chdir=/usr/share /bin/tar xvf {{tomcat_download_zip}} -C /opt/ creates={{tomcat_dest}}
+
+- name: Symlink install directory
+  file: src={{tomcat_dest}} path=/usr/share/tomcat state=link
+
+- name: Change ownership of Tomcat installation
+  file: path=/usr/share/tomcat/ owner=tomcat group=tomcat state=directory recurse=yes
+
+- name: Configure Tomcat server
+  template: src=server.xml dest=/usr/share/tomcat/conf/
+  notify: restart tomcat
+
+- name: Configure Tomcat users
+  template: src=tomcat-users.xml dest=/usr/share/tomcat/conf/
+  notify: restart tomcat
+
+- name: Install Tomcat init script
+  copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
+  when: "ansible_os_family == 'RedHat'"
+
+- name: Install Tomcat init script
+  copy: src=tomcat-initscript.sh dest=/etc/init.d/tomcat mode=0755
+  when: "ansible_os_family == 'RedHat'"
+
+- name: Install Tomcat init script
+  template: src=tomcat-systemd.service dest=/etc/systemd/system/tomcat.service mode=0755
+  when: "ansible_os_family == 'Debian'"
+
+- name: Start Tomcat
+  service: name=tomcat state=started enabled=yes
+
+- name: deploy iptables rules
+  template: src=iptables-save dest=/etc/sysconfig/iptables
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '6'"
+  notify: restart iptables
+
+- name: insert firewalld rule for tomcat http port
+  firewalld: port={{ http_port }}/tcp permanent=true state=enabled immediate=yes
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '6'"
+
+- name: insert firewalld rule for tomcat https port
+  firewalld: port={{ https_port }}/tcp permanent=true state=enabled immediate=yes
+  when: "ansible_os_family == 'RedHat' and ansible_distribution_major_version == '6'"
+
+- name: wait for tomcat to start
+  wait_for: port={{http_port}} timeout=60
